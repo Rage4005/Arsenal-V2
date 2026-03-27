@@ -1,0 +1,138 @@
+.coming-soon-content {
+    padding: 2rem;
+    background: linear-gradient(to bottom, #000000, #1a1a1a);
+}
+
+.coming-soon-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 4rem 0;
+    background: linear-gradient(45deg, rgba(255, 60, 0, 0.1), rgba(0, 0, 0, 0.3));
+    border-radius: 15px;
+}
+
+.coming-soon-hero h1 {
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.coming-soon-hero p {
+    color: #ccc;
+    font-size: 1.2rem;
+}
+
+.coming-soon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.coming-soon-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.coming-soon-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(255, 60, 0, 0.2);
+}
+
+.coming-soon-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.coming-soon-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.coming-soon-card:hover .coming-soon-image img {
+    transform: scale(1.05);
+}
+
+.release-date {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 60, 0, 0.9);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.coming-soon-details {
+    padding: 1.5rem;
+}
+
+.coming-soon-details h3 {
+    color: #fff;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.coming-soon-details p {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.coming-soon-details .price-tag {
+    color: #ff3c00;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    justify-content: flex-start;
+    padding: 0;
+}
+
+.notify-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background: transparent;
+    border: 2px solid #ff3c00;
+    color: #ff3c00;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.notify-btn:hover {
+    background: #ff3c00;
+    color: white;
+}
+
+.notify-btn.notified {
+    background: #00cc66;
+    border-color: #00cc66;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .coming-soon-hero {
+        padding: 2rem 0;
+    }
+
+    .coming-soon-hero h1 {
+        font-size: 2rem;
+    }
+
+    .coming-soon-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,226 @@
+.games-catalog {
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 2rem;
+}
+
+.filters {
+  background: #1a1a1a;
+  padding: 1.5rem;
+  border-radius: 10px;
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+}
+
+.filter-group {
+  margin-bottom: 1.5rem;
+}
+
+.filter-group h3 {
+  color: #fff;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.filter-group label {
+  display: block;
+  color: #ccc;
+  margin: 0.5rem 0;
+  cursor: pointer;
+}
+
+.filter-group input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.price-slider {
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.price-value {
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  align-items: start;
+}
+
+.game-card {
+  background: #1a1a1a;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  max-height: 420px;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+}
+
+.game-image {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.game-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.game-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.game-image:hover .game-overlay {
+  opacity: 1;
+}
+
+.add-to-cart {
+  background: #ff4757;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.add-to-cart:hover {
+  background: #ff6b81;
+}
+
+.game-info {
+  padding: 1.5rem;
+}
+
+.game-info h3 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.game-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.game-genre {
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.game-price {
+  color: #ff4757;
+  font-weight: 600;
+}
+
+.game-rating {
+  color: #ffd700;
+  font-size: 0.9rem;
+}
+
+.game-rating span {
+  color: #ccc;
+  margin-left: 0.5rem;
+}
+
+
+.search-results-info p {
+  color: #aaa;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.search-results-info em {
+  color: #ff4757;
+  font-style: normal;
+}
+
+.search-results-info strong {
+  color: #fff;
+}
+
+.category-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.category-checkboxes label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255,255,255,0.05);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255,255,255,0.1);
+  margin: 0;
+}
+
+.category-checkboxes label:hover {
+  background: rgba(255, 71, 87, 0.15);
+  border-color: rgba(255, 71, 87, 0.3);
+}
+
+.category-checkboxes label.active {
+  background: rgba(255, 71, 87, 0.2);
+  border-color: #ff4757;
+  color: #ff4757;
+}
+
+.category-checkboxes input[type="checkbox"] {
+  display: none;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #888;
+}
+
+.no-results h3 {
+  color: #ccc;
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+
+.no-results p {
+  color: #888;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .games-catalog {
+    grid-template-columns: 1fr;
+  }
+
+  .filters {
+    position: static;
+    margin-bottom: 2rem;
+  }
+}
