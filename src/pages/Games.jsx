@@ -1,11 +1,31 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import GameCard from '../components/GameCard';
-import { gamesData } from '../gamesData';
+import { db } from '../firebase';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import '../games.css';
 
 const Games = ({ searchQuery = '' }) => {
+  const [gamesData, setGamesData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [priceRange, setPriceRange] = useState(100);
   const [selectedCategories, setSelectedCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        const gamesCollection = collection(db, 'games');
+        const querySnapshot = await getDocs(gamesCollection);
+        const gamesList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setGamesData(gamesList);
+      } catch (error) {
+        console.error("Error fetching games: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGames();
+  }, []);
 
   const allCategories = useMemo(() => {
     const cats = new Set();
@@ -15,7 +35,7 @@ const Games = ({ searchQuery = '' }) => {
       }
     });
     return [...cats].sort();
-  }, []);
+  }, [gamesData]);
 
   const toggleCategory = (cat) => {
     setSelectedCategories(prev => 
@@ -28,11 +48,11 @@ const Games = ({ searchQuery = '' }) => {
 
     // Filter by search query (matches title, genre, or categories)
     if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase().trim();
+      const q = searchQuery.toLowerCase().trim();
       results = results.filter(game => {
-        const titleMatch = game.title.toLowerCase().includes(query);
-        const genreMatch = game.genre.toLowerCase().includes(query);
-        const categoryMatch = game.categories && game.categories.some(c => c.toLowerCase().includes(query));
+        const titleMatch = game.title.toLowerCase().includes(q);
+        const genreMatch = game.genre?.toLowerCase().includes(q);
+        const categoryMatch = game.categories && game.categories.some(c => c.toLowerCase().includes(q));
         return titleMatch || genreMatch || categoryMatch;
       });
     }
@@ -48,7 +68,15 @@ const Games = ({ searchQuery = '' }) => {
     results = results.filter(game => game.price <= priceRange);
 
     return results;
-  }, [searchQuery, selectedCategories, priceRange]);
+  }, [gamesData, searchQuery, selectedCategories, priceRange]);
+
+  if (loading) {
+    return (
+      <div className="loading-container" style={{ height: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#fff' }}>
+        <div className="loader">Loading Arsenal Catalog...</div>
+      </div>
+    );
+  }
 
   return (
     <main className="games-catalog">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -10,6 +10,8 @@ import ComingSoon from './pages/ComingSoon';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import Admin from './pages/Admin';
+import { useAuth } from './components/AuthContext';
 import './index.css';
 
 const ScrollToTop = () => {
@@ -22,6 +24,7 @@ const ScrollToTop = () => {
 
 const AppContent = () => {
   const location = useLocation();
+  const { currentUser } = useAuth();
   const isAuthPage = ['/login', '/register'].includes(location.pathname);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -36,11 +39,15 @@ const AppContent = () => {
     }
   }, [location]);
 
+  if (!currentUser && !isAuthPage) {
+    return <Navigate to="/login" replace />;
+  }
+
   if (isAuthPage) {
     return (
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={currentUser ? <Navigate to="/" replace /> : <Login />} />
+        <Route path="/register" element={currentUser ? <Navigate to="/" replace /> : <Register />} />
       </Routes>
     );
   }
@@ -55,6 +62,7 @@ const AppContent = () => {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/coming-soon" element={<ComingSoon />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
       <Footer />
     </div>

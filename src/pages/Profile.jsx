@@ -1,15 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
-import { gamesData } from '../gamesData';
+import { useAuth } from '../components/AuthContext';
+import { db } from '../firebase';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const [purchasedGames, setPurchasedGames] = useState([]);
+  const { userData, currentUser } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate('/login');
+    }
+  }, [currentUser, navigate]);
 
   useEffect(() => {
     // Try to load any purchased games from localStorage, or use a mock library
-    const saved = JSON.parse(localStorage.getItem('purchasedGames')) || gamesData.slice(0, 3);
+    const saved = JSON.parse(localStorage.getItem('purchasedGames')) || [];
     setPurchasedGames(saved);
   }, []);
+
+  if (!userData) {
+    return (
+      <main className="profile-page" style={{ padding: '40px', minHeight: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <h2 style={{ color: 'white' }}>Loading Profile...</h2>
+      </main>
+    );
+  }
+
+  const joinYear = userData.createdAt ? new Date(userData.createdAt).getFullYear() : '2026';
 
   return (
     <main className="profile-page" style={{ padding: '40px', minHeight: '80vh' }}>
@@ -18,9 +39,9 @@ const Profile = () => {
           <i className="fas fa-user"></i>
         </div>
         <div className="user-info">
-          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: '32px', marginBottom: '8px' }}>ArmanGamer</h1>
-          <p style={{ color: 'var(--gray-100)', opacity: 0.8 }}>arman@example.com</p>
-          <p style={{ color: 'var(--orange-light)', fontSize: '14px', marginTop: '4px' }}>Member since 2026</p>
+          <h1 style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: '32px', marginBottom: '8px' }}>{userData.username}</h1>
+          <p style={{ color: 'var(--gray-100)', opacity: 0.8 }}>{userData.email}</p>
+          <p style={{ color: 'var(--orange-light)', fontSize: '14px', marginTop: '4px' }}>Member since {joinYear}</p>
         </div>
       </div>
 
