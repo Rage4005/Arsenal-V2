@@ -1,0 +1,9 @@
+services:
+  arsenal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: arsenal-game-store
+    ports:
+      - "8080:80"
+    restart: unless-stopped
