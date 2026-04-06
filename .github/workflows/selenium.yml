@@ -1,0 +1,46 @@
+name: Selenium UI tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Install Node dependencies
+      run: npm install
+
+    - name: Build frontend
+      run: npm run build
+
+    - name: Start Vite Dev Server
+      run: npx vite --port 5173 & 
+      
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install selenium webdriver-manager pytest pytest-xdist
+
+    - name: Wait for server to be ready
+      run: |
+        timeout 60s bash -c 'until curl -s http://localhost:5173; do sleep 1; done'
+
+    - name: Run Selenium Tests
+      run: |
+        pytest --headless selenium_tests/
